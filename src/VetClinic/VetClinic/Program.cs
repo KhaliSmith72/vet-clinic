@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using VetClinic.Interfaces;
+using VetClinic.Models;
 using VetClinic.Services;
 
 namespace VetClinic
 {
     class Program
     {
+
         static void Main(string[] args)
         {
             TestAddressService();
@@ -13,8 +16,8 @@ namespace VetClinic
             TestDoctorService();
             TestPatientService();
             Console.ReadLine();
-        }
-
+		}
+		  
         static void TestAddressService()
         {
             var service = GetService(typeof(AddressService));
@@ -33,6 +36,14 @@ namespace VetClinic
         static void TestPatientService()
         {
             var service = GetService(typeof(PatientService));
+			var list = service.GetData();
+			
+			foreach (var item in list)
+			{
+				Console.WriteLine(item);
+			}
+			
+			
         }
 
         static IService GetService(Type type)
