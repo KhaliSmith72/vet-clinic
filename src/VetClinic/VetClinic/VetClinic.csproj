@@ -9,6 +9,14 @@
     <Compile Remove="Implementations\**" />
     <EmbeddedResource Remove="Implementations\**" />
     <None Remove="Implementations\**" />
+<<<<<<< HEAD
+=======
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.Common" Version="4.3.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.3.0" />
+>>>>>>> bahrjd
   </ItemGroup>
 
 </Project>
