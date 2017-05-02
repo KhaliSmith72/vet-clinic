@@ -18,6 +18,11 @@ namespace VetClinic
         static void TestAddressService()
         {
             var service = GetService(typeof(AddressService));
+            var addresses = service.GetData();
+            foreach (var item in addresses)
+            {
+                Console.WriteLine(item);
+            }
         }
 
         static void TestClinicService()
