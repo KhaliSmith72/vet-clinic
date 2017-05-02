@@ -7,5 +7,6 @@ namespace VetClinic.Models
 {
     class Clinic : IEntity
     {
+
     }
 }

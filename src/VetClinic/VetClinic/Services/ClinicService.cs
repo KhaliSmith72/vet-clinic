@@ -9,6 +9,16 @@ namespace VetClinic.Services
 {
     class ClinicService : IService
     {
+        public int ClinicId { get; set; }
+        public int AddressId { get; set; }
+        public string Name { get; set; }
+        public string Hours { get; set; }
+
+        public override string ToString()
+        {
+            return $"ClinicId: {ClinicId}, AddressId: {AddressId}, Name: {Name}, Hours: {Hours}";
+        }
+
         public int AddData(IEntity entity)
         {
             throw new NotImplementedException();
@@ -21,6 +31,7 @@ namespace VetClinic.Services
 
         public IList<IEntity> GetData()
         {
+            var result = new List<IEntity>();
             try
             {
                 //using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["Model1"].ConnectionString))
@@ -35,10 +46,16 @@ namespace VetClinic.Services
                         using (var sqlDataReader = sqlCommand.ExecuteReader())
                         {
                             while (sqlDataReader.HasRows && sqlDataReader.Read())
-                            {
-                                //Id = Convert.ToInt32(sqlDataReader["Id"]),
-                            }
-                        }
+                                                               
+                                {
+                                    ClinicId = Convert.ToInt32(sqlDataReader["ClinicId"]);
+                                    AddressId = Convert.ToInt32(sqlDataReader["ClinicId"]);
+                                    Name = sqlDataReader["Name"].ToString();
+                                    Hours = sqlDataReader["Hours"].ToString();
+                                }
+                            Console.WriteLine();
+                        };
+                        return result;
                     }
                 }
             }
@@ -46,6 +63,7 @@ namespace VetClinic.Services
             {
                 Console.WriteLine(ex.Message);
             };
+
         }
 
         public void UpdateData(IEntity entity)
