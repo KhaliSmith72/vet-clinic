@@ -71,16 +71,37 @@ namespace VetClinic
 
         static void TestPatientService()
         {
-            var service = GetService(typeof(PatientService));
-			var list = service.GetData();
+			Console.WriteLine("\n\nBEGIN TESTING PATIENT SERVICE\n");
+
+			var addressService = GetService(typeof(AddressService));
 			
-			foreach (var item in list)
+			var addressId = addressService.AddData(new Address
 			{
-				Console.WriteLine(item);
+				//Id = 0,
+				Street = "123 Main",
+				City = "Scottsdale",
+				State = "AZ",
+				Zip = "85255"
+			});
+
+			if (addressId == -1)
+			{
+				throw new Exception("Record was not added");
 			}
+
+			var patientService = GetService(typeof(PatientService));
+
+			var patientId = patientService.AddData(new Patient
+			{
+				Name = "Mr.Bubbles",
+				Species = "Unknown",
+				DOB = DateTime.Now,
+				AddressId = addressId
+			});
 			
-			
-        }
+			Console.WriteLine("\nEND TESTING ADDRESS SERVICE\n");
+
+		}
 
         static IService GetService(Type type)
         {
