@@ -13,7 +13,34 @@ namespace VetClinic.Services
         
         public int AddData(IEntity entity)
         {
-            throw new NotImplementedException();
+            var result = -1;
+
+            try
+            {
+                using (var sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=VetClinic;Integrated Security=True"))
+                {
+                    using (var sqlCommand = new SqlCommand("[dbo].[AddAddress]", sqlConnection))
+                    {
+                        var address = (Address)entity;
+                        sqlCommand.Parameters.AddWithValue("@Street", address.Street);
+                        sqlCommand.Parameters.AddWithValue("@City", address.City);
+                        sqlCommand.Parameters.AddWithValue("@State", address.State);
+                        sqlCommand.Parameters.AddWithValue("@Zip", address.Zip);
+                        sqlCommand.Parameters.AddWithValue("@AddressId", address.Id).Direction = ParameterDirection.Output;
+                        sqlCommand.CommandType = CommandType.StoredProcedure;
+                        sqlConnection.Open();
+
+                        sqlCommand.ExecuteNonQuery();
+                        result = Convert.ToInt32(sqlCommand.Parameters["@AddressId"].Value);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return result;
         }
 
         public void DeleteData(IEntity entity)
