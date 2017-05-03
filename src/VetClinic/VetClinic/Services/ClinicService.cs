@@ -4,11 +4,13 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using VetClinic.Interfaces;
+using VetClinic.Models;
 
 namespace VetClinic.Services
 {
     class ClinicService : IService
     {
+        
         public int AddData(IEntity entity)
         {
             throw new NotImplementedException();
@@ -21,6 +23,7 @@ namespace VetClinic.Services
 
         public IList<IEntity> GetData()
         {
+            var result = new List<IEntity>();
             try
             {
                 //using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["Model1"].ConnectionString))
@@ -36,9 +39,18 @@ namespace VetClinic.Services
                         {
                             while (sqlDataReader.HasRows && sqlDataReader.Read())
                             {
-                                //Id = Convert.ToInt32(sqlDataReader["Id"]),
+
+                                var clinic = new Clinic
+                                {
+                                    ClinicId = Convert.ToInt32(sqlDataReader["ClinicId"]),
+                                    AddressId = Convert.ToInt32(sqlDataReader["AddressId"]),
+                                    Name = sqlDataReader["Name"].ToString(),
+                                    Hours = sqlDataReader["Hours"].ToString(),
+                                };
+                                result.Add(clinic);
                             }
-                        }
+                            Console.WriteLine();
+                        };
                     }
                 }
             }
@@ -46,6 +58,7 @@ namespace VetClinic.Services
             {
                 Console.WriteLine(ex.Message);
             };
+            return result;
         }
 
         public void UpdateData(IEntity entity)
