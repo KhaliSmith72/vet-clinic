@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 using VetClinic.Interfaces;
+using VetClinic.Models;
 
 namespace VetClinic.Services
 {
     class ClinicService : IService
     {
+        
         public int AddData(IEntity entity)
         {
             throw new NotImplementedException();
@@ -19,7 +23,42 @@ namespace VetClinic.Services
 
         public IList<IEntity> GetData()
         {
-            throw new NotImplementedException();
+            var result = new List<IEntity>();
+            try
+            {
+                //using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["Model1"].ConnectionString))
+                using (var sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=VetClinic;Integrated Security=True"))
+                {
+                    using (var sqlCommand = new SqlCommand("[dbo].[GetClinic]", sqlConnection))
+                    {
+                        sqlCommand.CommandType = CommandType.StoredProcedure;
+                        //sqlCommand.Parameters.AddWithValue("@Id", id);
+                        sqlConnection.Open();
+
+                        using (var sqlDataReader = sqlCommand.ExecuteReader())
+                        {
+                            while (sqlDataReader.HasRows && sqlDataReader.Read())
+                            {
+
+                                var clinic = new Clinic
+                                {
+                                    ClinicId = Convert.ToInt32(sqlDataReader["ClinicId"]),
+                                    AddressId = Convert.ToInt32(sqlDataReader["AddressId"]),
+                                    Name = sqlDataReader["Name"].ToString(),
+                                    Hours = sqlDataReader["Hours"].ToString(),
+                                };
+                                result.Add(clinic);
+                            }
+                            Console.WriteLine();
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            };
+            return result;
         }
 
         public void UpdateData(IEntity entity)
