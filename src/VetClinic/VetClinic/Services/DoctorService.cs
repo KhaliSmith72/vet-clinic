@@ -13,7 +13,44 @@ namespace VetClinic.Services
 
         public int AddData(IEntity entity)
         {
-            throw new NotImplementedException();
+            var result = new List<IEntity>();
+            try
+            {
+                //using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["Model1"].ConnectionString))
+                using (var sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=VetClinic;Integrated Security=True"))
+                {
+                    using (var sqlCommand = new SqlCommand("[dbo].[AddDoctor]", sqlConnection))
+                    {
+                        sqlCommand.CommandType = CommandType.StoredProcedure;
+                        //sqlCommand.Parameters.AddWithValue("@Id", id);
+                        sqlConnection.Open();
+
+                        using (var sqlDataReader = sqlCommand.ExecuteReader())
+                        {
+                            while (sqlDataReader.HasRows && sqlDataReader.Read())
+                            {
+                                var doctor = new Doctor
+                                {
+                                    DoctorId = Convert.ToInt32(sqlDataReader["DoctorId"]),
+                                    ClinicId = Convert.ToInt32(sqlDataReader["ClinicId"]),
+                                    FirstName = (sqlDataReader["FirstName"]).ToString(),
+                                    LastName = (sqlDataReader["LastName"]).ToString(),
+                                    Email = (sqlDataReader["Email"]).ToString(),
+
+                                };
+
+                                //result.Add(doctor);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return result;
+
         }
 
         public void DeleteData(IEntity entity)
@@ -50,7 +87,6 @@ namespace VetClinic.Services
                                 };
 
                                 result.Add(doctor);
-                                //Id = Convert.ToInt32(sqlDataReader["Id"]),
                             }
                         }
                     }
