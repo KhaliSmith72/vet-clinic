@@ -19,19 +19,18 @@ namespace VetClinic.Services
             {
                 using (var sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=VetClinic;Integrated Security=True"))
                 {
-                    using (var sqlCommand = new SqlCommand("[dbo].[AddAddress]", sqlConnection))
+                    using (var sqlCommand = new SqlCommand("[dbo].[AddClinic]", sqlConnection))
                     {
-                        var address = (Address)entity;
-                        sqlCommand.Parameters.AddWithValue("@Street", address.Street);
-                        sqlCommand.Parameters.AddWithValue("@City", address.City);
-                        sqlCommand.Parameters.AddWithValue("@State", address.State);
-                        sqlCommand.Parameters.AddWithValue("@Zip", address.Zip);
-                        sqlCommand.Parameters.AddWithValue("@AddressId", address.Id).Direction = ParameterDirection.Output;
+                        var clinic = (Clinic)entity;
+                        sqlCommand.Parameters.AddWithValue("@Name", clinic.Name);
+                        sqlCommand.Parameters.AddWithValue("@Hours", clinic.Hours);
+                        sqlCommand.Parameters.AddWithValue("@AddressId", clinic.AddressId);
+                        sqlCommand.Parameters.AddWithValue("@clinicId", clinic.ClinicId).Direction = ParameterDirection.Output;
                         sqlCommand.CommandType = CommandType.StoredProcedure;
                         sqlConnection.Open();
 
                         sqlCommand.ExecuteNonQuery();
-                        result = Convert.ToInt32(sqlCommand.Parameters["@AddressId"].Value);
+                        result = Convert.ToInt32(sqlCommand.Parameters["@ClinicId"].Value);
                     }
                 }
             }
