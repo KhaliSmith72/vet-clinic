@@ -76,7 +76,8 @@ namespace VetClinic
             {
                 //id = 0,
                 Name = "The Bowsery",
-                Hours = "9am - 5pm"
+                Hours = "9am - 5pm",
+                AddressId = addressId 
             });
 
             if (id == -1)
