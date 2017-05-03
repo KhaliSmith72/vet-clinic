@@ -20,12 +20,33 @@ namespace VetClinic
 		  
         static void TestAddressService()
         {
+            Console.WriteLine("\n\nBEGIN TESTING ADDRESS SERVICE\n");
+
             var service = GetService(typeof(AddressService));
+
+            // add new stuff
+            var id = service.AddData(new Address
+            {
+                //Id = 0,
+                Street = "123 Main",
+                City = "Scottsdale",
+                State = "AZ",
+                Zip = "85255"
+            });
+
+            if (id == -1)
+            {
+                throw new Exception("Record was not added");
+            }
+
+            // view everything
             var addresses = service.GetData();
             foreach (var item in addresses)
             {
                 Console.WriteLine(item);
             }
+
+            Console.WriteLine("\nEND TESTING ADDRESS SERVICE\n");
         }
 
         static void TestClinicService()
