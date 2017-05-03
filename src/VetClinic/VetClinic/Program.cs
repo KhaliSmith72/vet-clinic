@@ -51,12 +51,31 @@ namespace VetClinic
 
         static void TestClinicService()
         {
-            var service = GetService(typeof(ClinicService));
-            var clinics = service.GetData();
-            foreach (var item in clinics)
-            {
-                Console.WriteLine(item);
-            }
+            //Console.WriteLine("\n\nBEGIN TESTING CLINIC SERVICE\n");
+
+            //var clinicService = GetService(typeof(ClinicService));
+
+            //// add new stuff
+            //var id = clinicService.AddData(new Clinic
+            //{
+            //    //Id = 0,
+            //    Name = "The Bowsery",
+            //    Hours = "9am - 5pm"               
+            //});
+
+            //if (id == -1)
+            //{
+            //    throw new Exception("Record was not added");
+            //}
+
+            //var service = GetService(typeof(ClinicService));
+            //var clinics = service.GetData();
+            //foreach (var item in clinics)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            //Console.WriteLine("\nEND TESTING CLINIC SERVICE\n");
+
         }
 
         static void TestDoctorService()
@@ -89,7 +108,7 @@ namespace VetClinic
 				throw new Exception("Record was not added");
 			}
 
-			var patientService = GetService(typeof(PatientService));
+            var patientService = GetService(typeof(PatientService));
 
 			var patientId = patientService.AddData(new Patient
 			{
@@ -98,8 +117,18 @@ namespace VetClinic
 				DOB = DateTime.Now,
 				AddressId = addressId
 			});
-			
-			Console.WriteLine("\nEND TESTING ADDRESS SERVICE\n");
+
+            if (patientId == -1)
+            {
+                throw new Exception("Record was not added");
+            }
+
+            var patients = patientService.GetData();
+            foreach (var item in patients)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("\nEND TESTING PATIENT SERVICE\n");
 
 		}
 
