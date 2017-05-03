@@ -51,12 +51,31 @@ namespace VetClinic
 
         static void TestClinicService()
         {
+            Console.WriteLine("\n\nBEGIN TESTING CLINIC SERVICE\n");
+
+            var clinicService = GetService(typeof(ClinicService));
+
+            // add new stuff
+            var id = clinicService.AddData(new Clinic
+            {
+                //Id = 0,
+                Name = "The Bowsery",
+                Hours = "9am - 5pm"               
+            });
+
+            if (id == -1)
+            {
+                throw new Exception("Record was not added");
+            }
+
             var service = GetService(typeof(ClinicService));
             var clinics = service.GetData();
             foreach (var item in clinics)
             {
                 Console.WriteLine(item);
             }
+            Console.WriteLine("\nEND TESTING CLINIC SERVICE\n");
+
         }
 
         static void TestDoctorService()
