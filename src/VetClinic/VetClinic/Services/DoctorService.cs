@@ -13,35 +13,25 @@ namespace VetClinic.Services
 
         public int AddData(IEntity entity)
         {
-            var result = new List<IEntity>();
+            var result = -1;
+
             try
             {
-                //using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["Model1"].ConnectionString))
                 using (var sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=VetClinic;Integrated Security=True"))
                 {
                     using (var sqlCommand = new SqlCommand("[dbo].[AddDoctor]", sqlConnection))
                     {
+                        var doctor = (Doctor)entity;
+                        sqlCommand.Parameters.AddWithValue("@ClinicId", doctor.ClinicId);
+                        sqlCommand.Parameters.AddWithValue("@FirstName", doctor.FirstName);
+                        sqlCommand.Parameters.AddWithValue("@LastName", doctor.LastName);
+                        sqlCommand.Parameters.AddWithValue("@Email", doctor.Email);
+                        sqlCommand.Parameters.AddWithValue("@DoctorId", doctor.DoctorId).Direction = ParameterDirection.Output;
                         sqlCommand.CommandType = CommandType.StoredProcedure;
-                        //sqlCommand.Parameters.AddWithValue("@Id", id);
                         sqlConnection.Open();
 
-                        using (var sqlDataReader = sqlCommand.ExecuteReader())
-                        {
-                            while (sqlDataReader.HasRows && sqlDataReader.Read())
-                            {
-                                var doctor = new Doctor
-                                {
-                                    DoctorId = Convert.ToInt32(sqlDataReader["DoctorId"]),
-                                    ClinicId = Convert.ToInt32(sqlDataReader["ClinicId"]),
-                                    FirstName = (sqlDataReader["FirstName"]).ToString(),
-                                    LastName = (sqlDataReader["LastName"]).ToString(),
-                                    Email = (sqlDataReader["Email"]).ToString(),
-
-                                };
-
-                                //result.Add(doctor);
-                            }
-                        }
+                        sqlCommand.ExecuteNonQuery();
+                        result = Convert.ToInt32(sqlCommand.Parameters["@DoctorId"].Value);
                     }
                 }
             }
@@ -49,6 +39,7 @@ namespace VetClinic.Services
             {
                 Console.WriteLine(ex.Message);
             }
+
             return result;
 
         }
