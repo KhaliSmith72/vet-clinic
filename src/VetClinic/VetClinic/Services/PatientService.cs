@@ -24,8 +24,8 @@ namespace VetClinic.Services
 						sqlCommand.Parameters.AddWithValue("@Name", patients.Name);
 						sqlCommand.Parameters.AddWithValue("@DOB", patients.DOB);
 						sqlCommand.Parameters.AddWithValue("@Species", patients.Species);
-						sqlCommand.Parameters.AddWithValue("@AddressId", patients.AddressId).Direction = ParameterDirection.Output;
-						sqlCommand.Parameters.AddWithValue("@PatientId", patients.PatientId);
+						sqlCommand.Parameters.AddWithValue("@AddressId", patients.AddressId);
+						sqlCommand.Parameters.AddWithValue("@PatientId", patients.PatientId).Direction = ParameterDirection.Output;
 
 						sqlCommand.CommandType = CommandType.StoredProcedure;
 						//sqlCommand.Parameters.AddWithValue("@Id", id);
