@@ -4,21 +4,13 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using VetClinic.Interfaces;
+using VetClinic.Models;
 
 namespace VetClinic.Services
 {
     class ClinicService : IService
     {
-        public int ClinicId { get; set; }
-        public int AddressId { get; set; }
-        public string Name { get; set; }
-        public string Hours { get; set; }
-
-        public override string ToString()
-        {
-            return $"ClinicId: {ClinicId}, AddressId: {AddressId}, Name: {Name}, Hours: {Hours}";
-        }
-
+        
         public int AddData(IEntity entity)
         {
             throw new NotImplementedException();
@@ -46,16 +38,19 @@ namespace VetClinic.Services
                         using (var sqlDataReader = sqlCommand.ExecuteReader())
                         {
                             while (sqlDataReader.HasRows && sqlDataReader.Read())
-                                                               
+                            {
+
+                                var clinic = new Clinic
                                 {
-                                    ClinicId = Convert.ToInt32(sqlDataReader["ClinicId"]);
-                                    AddressId = Convert.ToInt32(sqlDataReader["ClinicId"]);
-                                    Name = sqlDataReader["Name"].ToString();
-                                    Hours = sqlDataReader["Hours"].ToString();
-                                }
+                                    ClinicId = Convert.ToInt32(sqlDataReader["ClinicId"]),
+                                    AddressId = Convert.ToInt32(sqlDataReader["AddressId"]),
+                                    Name = sqlDataReader["Name"].ToString(),
+                                    Hours = sqlDataReader["Hours"].ToString(),
+                                };
+                                result.Add(clinic);
+                            }
                             Console.WriteLine();
                         };
-                        return result;
                     }
                 }
             }
@@ -63,7 +58,7 @@ namespace VetClinic.Services
             {
                 Console.WriteLine(ex.Message);
             };
-
+            return result;
         }
 
         public void UpdateData(IEntity entity)

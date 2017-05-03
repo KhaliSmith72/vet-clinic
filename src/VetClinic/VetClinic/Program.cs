@@ -28,6 +28,11 @@ namespace VetClinic
         static void TestClinicService()
         {
             var service = GetService(typeof(ClinicService));
+            var clinics = service.GetData();
+            foreach (var item in clinics)
+            {
+                Console.WriteLine(item);
+            }
         }
 
         static void TestDoctorService()
