@@ -12,5 +12,10 @@ namespace VetClinic.Models
 		public DateTime DOB { get; set; }
 		public int AddressId { get; set; }
 		public int PatientId { get; set; }
+
+		public override string ToString()
+		{
+			return $"Name: {Name}, Species: {Species}, DOB: {DOB}, AddressId: {AddressId}, PatientId: {PatientId}";
+		}
 	}
 }

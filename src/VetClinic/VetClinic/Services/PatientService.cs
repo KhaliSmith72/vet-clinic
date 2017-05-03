@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using VetClinic.Interfaces;
+using VetClinic.Models;
 
 namespace VetClinic.Services
 {
@@ -37,9 +38,16 @@ namespace VetClinic.Services
 						{
 							while (sqlDataReader.HasRows && sqlDataReader.Read())
 							{
-								//Id = Convert.ToInt32(sqlDataReader["Id"]),
-								P
-								
+								var patient = new Patient
+								{
+									PatientId = Convert.ToInt32(sqlDataReader["PatientId"]),
+									AddressId = Convert.ToInt32(sqlDataReader["AddressId"]),
+									DOB = Convert.ToDateTime(sqlDataReader["DOB"]),
+									Name = sqlDataReader["Name"].ToString(),
+									Species = sqlDataReader["Species"].ToString()
+
+								};
+								result.Add(patient);
 							}
 						}
 					}
