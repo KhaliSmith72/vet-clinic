@@ -51,30 +51,46 @@ namespace VetClinic
 
         static void TestClinicService()
         {
-            //Console.WriteLine("\n\nBEGIN TESTING CLINIC SERVICE\n");
+            Console.WriteLine("\n\nbegin testing clinic service\n");
 
-            //var clinicService = GetService(typeof(ClinicService));
+            var addressService = GetService(typeof(AddressService));
 
-            //// add new stuff
-            //var id = clinicService.AddData(new Clinic
-            //{
-            //    //Id = 0,
-            //    Name = "The Bowsery",
-            //    Hours = "9am - 5pm"               
-            //});
+            var addressId = addressService.AddData(new Address
+            {
+                //Id = 0,
+                Street = "21 Jump St",
+                City = "Beverly Hills",
+                State = "CA",
+                Zip = "90210"
+            });
 
-            //if (id == -1)
-            //{
-            //    throw new Exception("Record was not added");
-            //}
+            if (addressId == -1)
+            {
+                throw new Exception("Record was not added");
+            }
 
-            //var service = GetService(typeof(ClinicService));
-            //var clinics = service.GetData();
-            //foreach (var item in clinics)
-            //{
-            //    Console.WriteLine(item);
-            //}
-            //Console.WriteLine("\nEND TESTING CLINIC SERVICE\n");
+            var clinicservice = GetService(typeof(ClinicService));
+
+            // add new stuff
+            var id = clinicservice.AddData(new Clinic
+            {
+                //id = 0,
+                Name = "The Bowsery",
+                Hours = "9am - 5pm"
+            });
+
+            if (id == -1)
+            {
+                throw new Exception("record was not added");
+            }
+
+            var service = GetService(typeof(ClinicService));
+            var clinics = service.GetData();
+            foreach (var item in clinics)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("\nend testing clinic service\n");
 
         }
 
