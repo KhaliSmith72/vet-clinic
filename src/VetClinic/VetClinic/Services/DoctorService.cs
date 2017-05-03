@@ -4,16 +4,12 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using VetClinic.Interfaces;
+using VetClinic.Models;
 
 namespace VetClinic.Services
 {
     class DoctorService : IService
     {
-        public int DoctorId { get; set; }
-        public int CliniId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
 
         public int AddData(IEntity entity)
         {
@@ -43,18 +39,17 @@ namespace VetClinic.Services
                         {
                             while (sqlDataReader.HasRows && sqlDataReader.Read())
                             {
-                                var doctorId = new DoctorService();
-                                var ClinicId = new DoctorService();
-                                var firstName = new DoctorService();
-                                var lastName = new DoctorService();
-                                var email = new DoctorService();
+                                var doctor = new Doctor
+                                {
+                                    DoctorId = Convert.ToInt32(sqlDataReader["DoctorId"]),
+                                    ClinicId = Convert.ToInt32(sqlDataReader["ClinicId"]),
+                                    FirstName = (sqlDataReader["FirstName"]).ToString(),
+                                    LastName = (sqlDataReader["LastName"]).ToString(),
+                                    Email = (sqlDataReader["Email"]).ToString(),
 
+                                };
 
-
-                                doctorId = Convert.ToInt32(sqlDataReader["DoctorId"]),
-
-
-
+                                result.Add(doctor);
                                 //Id = Convert.ToInt32(sqlDataReader["Id"]),
                             }
                         }
