@@ -22,7 +22,7 @@ namespace VetClinic.Services
                     using (var sqlCommand = new SqlCommand("[dbo].[AddDoctor]", sqlConnection))
                     {
                         var doctor = (Doctor)entity;
-                        sqlCommand.Parameters.AddWithValue("@ClinicId", doctor.ClinicId);
+                        sqlCommand.Parameters.AddWithValue("@ClinicId", doctor.ClinicId); // Verify ase is ok
                         sqlCommand.Parameters.AddWithValue("@FirstName", doctor.FirstName);
                         sqlCommand.Parameters.AddWithValue("@LastName", doctor.LastName);
                         sqlCommand.Parameters.AddWithValue("@Email", doctor.Email);
