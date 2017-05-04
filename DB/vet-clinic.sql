@@ -183,9 +183,9 @@ GO
 ALTER DATABASE [VetClinic] SET  READ_WRITE 
 GO
 
--- 
+-- ************************************************************************************************
 -- Begin Address stored procs
---
+-- ************************************************************************************************
 
 USE [VetClinic]
 GO
@@ -215,14 +215,11 @@ BEGIN
 END
 GO
 
---
--- End Address stored procs 
---
 
 
--- 
+-- ************************************************************************************************
 -- Begin Clinic stored procs
---
+-- ************************************************************************************************
 
 USE [VetClinic]
 GO
@@ -249,14 +246,11 @@ BEGIN
 END
 GO
 
---
--- End Clinic stored procs 
---
 
 
--- 
+-- ************************************************************************************************
 -- Begin Doctor stored procs
---
+-- ************************************************************************************************
 
 USE [VetClinic]
 GO
@@ -286,14 +280,11 @@ BEGIN
 END
 GO
 
---
--- End Doctor stored procs 
---
 
 
--- 
+-- ************************************************************************************************
 -- Begin Patient stored procs
---
+-- ************************************************************************************************
 
 USE [VetClinic]
 GO
@@ -320,10 +311,64 @@ INSERT INTO [dbo].[Patient]
 	(@AddressId  ,@Name  ,@Species  ,@DOB	)
 	set @PatientId = @@IDENTITY
 END
-
---
--- End Patient stored procs 
---
+GO
 
 
+
+-- ************************************************************************************************
 -- Add some data...
+-- ************************************************************************************************
+
+USE [VetClinic]
+GO
+SET IDENTITY_INSERT [dbo].[Address]  ON
+GO
+INSERT INTO [dbo].[Address]
+([AddressId]	,[Street]					,[City]			,[State]	,[Zip]	) VALUES
+ (1				,'123 Main St'				,'Scottsdale'	,'AZ'		,'85255')
+,(2				,'2770 Doubletree Rd'		,'Scottsdale'	,'AZ'		,'85255')
+,(3				,'1440 Mountain View Ln'	,'Scottsdale'	,'AZ'		,'85255')
+,(4				,'14430 N 83rd Ave'			,'Scottsdale'	,'AZ'		,'85255')
+,(5				,'1220 Shea Blvd'			,'Scottsdale'	,'AZ'		,'85255')
+,(6				,'1660 N Scottsdale Rd'		,'Scottsdale'	,'AZ'		,'85255')
+GO
+SET IDENTITY_INSERT [dbo].[Address]  OFF
+GO
+
+USE [VetClinic]
+GO
+SET IDENTITY_INSERT [dbo].[Clinic]  ON
+GO
+INSERT INTO [dbo].[Clinic]
+([ClinicId] ,[AddressId] ,[Name]		   ,[Hours]			) VALUES
+ (1			,1			 ,'Birds N Beasts' ,'10AM to 5PM'	)
+,(2			,2			 ,'Pets N Stuff'   ,'8AM to 7PM'	)
+,(3			,3			 ,'The Last Walk'  ,'11AM to 2PM'	)
+SET IDENTITY_INSERT [dbo].[Clinic]  OFF
+GO
+
+USE [VetClinic]
+GO
+SET IDENTITY_INSERT [dbo].[Doctor]  ON
+GO
+INSERT INTO [dbo].[Doctor]
+([DoctorId] ,[ClinicId] ,[FirstName] ,[LastName] ,[Email]					) VALUES
+ (1         ,1			,'John'		,'Smith'	 ,'john.smith@gmail.com'	)
+,(2         ,2			,'Mary'		,'Johnson'	 ,'mary.johnson@yahoo.com'	)
+,(3         ,3			,'Nancy'	,'Jones'	 ,'nancy.jones@hotmail.com'	)
+SET IDENTITY_INSERT [dbo].[Doctor]  OFF
+GO
+
+USE [VetClinic]
+GO
+SET IDENTITY_INSERT [dbo].[Patient]  ON
+GO
+INSERT INTO [dbo].[Patient]
+([PatientId] ,[AddressId] ,[Name]		,[Species] ,[DOB]						) VALUES
+ (1			 ,4			  ,'Killer'		,'cat'	   ,'1980-01-01 00:00:00.000'	)
+,(2			 ,5			  ,'Pinkie Pie'	,'pony'	   ,'1995-02-02 00:00:00.000'	)
+,(3			 ,6			  ,'Nemo'		,'fish'	   ,'2015-03-03 00:00:00.000'	)
+SET IDENTITY_INSERT [dbo].[Patient]  OFF
+GO
+
+
