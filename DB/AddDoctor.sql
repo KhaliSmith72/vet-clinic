@@ -1,7 +1,7 @@
 USE [VetClinic]
 GO
 
-/****** Object:  StoredProcedure [dbo].[AddDoctor]    Script Date: 5/3/2017 9:52:10 AM ******/
+/****** Object:  StoredProcedure [dbo].[AddDoctor]    Script Date: 5/4/2017 8:57:57 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -15,6 +15,7 @@ CREATE PROCEDURE [dbo].[AddDoctor]
 ,@firstName nvarchar(200)
 ,@lastName nvarchar(200)
 ,@email nvarchar(200)
+,@doctorId int out
 
 AS
 BEGIN
@@ -30,6 +31,9 @@ BEGIN
            ,@firstName
            ,@lastName
            ,@email)
+
+		   SET @DoctorId = @@IDENTITY
 END
 GO
+
 
