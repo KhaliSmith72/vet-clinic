@@ -13,7 +13,35 @@ namespace VetClinic.Services
 
         public int AddData(IEntity entity)
         {
-            throw new NotImplementedException();
+            var result = -1;
+
+            try
+            {
+                using (var sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=VetClinic;Integrated Security=True"))
+                {
+                    using (var sqlCommand = new SqlCommand("[dbo].[AddDoctor]", sqlConnection))
+                    {
+                        var doctor = (Doctor)entity;
+                        sqlCommand.Parameters.AddWithValue("@ClinicId", doctor.ClinicId); // Verify ase is ok
+                        sqlCommand.Parameters.AddWithValue("@FirstName", doctor.FirstName);
+                        sqlCommand.Parameters.AddWithValue("@LastName", doctor.LastName);
+                        sqlCommand.Parameters.AddWithValue("@Email", doctor.Email);
+                        sqlCommand.Parameters.AddWithValue("@DoctorId", doctor.DoctorId).Direction = ParameterDirection.Output;
+                        sqlCommand.CommandType = CommandType.StoredProcedure;
+                        sqlConnection.Open();
+
+                        sqlCommand.ExecuteNonQuery();
+                        result = Convert.ToInt32(sqlCommand.Parameters["@DoctorId"].Value);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return result;
+
         }
 
         public void DeleteData(IEntity entity)
@@ -50,7 +78,6 @@ namespace VetClinic.Services
                                 };
 
                                 result.Add(doctor);
-                                //Id = Convert.ToInt32(sqlDataReader["Id"]),
                             }
                         }
                     }

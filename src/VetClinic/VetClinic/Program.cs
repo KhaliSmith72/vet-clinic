@@ -97,12 +97,46 @@ namespace VetClinic
 
         static void TestDoctorService()
         {
+            Console.WriteLine("\n\nBEGIN TESTING DOCTOR SERVICE\n");
+
+            // Show list of Clinics
+            //var service = GetService(typeof(ClinicService));
+            //var clinics = service.GetData();
+            //foreach (var item in clinics)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
+            // Get clinic Id
+            Console.WriteLine("Enter clinic Id for new doctor: ");
+            int InputClinicId = int.Parse(Console.ReadLine());
+
+            var doctorservice = GetService(typeof(DoctorService));
+
+            // Add new doctor
+            var id = doctorservice.AddData(new Doctor
+            {
+                ClinicId = InputClinicId,
+                FirstName = "Terry",
+                LastName = "Berry",
+                Email = "terry.berry@yahoo.com"
+            });
+
+            if (id == -1)
+            {
+                throw new Exception("Record was not added. ");
+            }
+
+            // Get doctor list
             var service = GetService(typeof(DoctorService));
             var doctors = service.GetData();
             foreach (var item in doctors)
             {
                 Console.WriteLine(item);
             }
+
+            Console.WriteLine("\nEND TESTING DOCTOR SERVICE\n");
+
         }
 
         static void TestPatientService()
